@@ -9,6 +9,8 @@ set(${PROJECT_NAME}_CATKIN_DEPS
     tf
     velodyne_msgs)
 
+
+find_package(velodyne_msgs REQUIRED)
 find_package(catkin REQUIRED COMPONENTS ${${PROJECT_NAME}_CATKIN_DEPS})
 
 # This driver uses Boost threads
@@ -54,11 +56,6 @@ if (CATKIN_ENABLE_TESTING)
     DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/tests
     MD5 65808d25772101358a3719b451b3d015)
   catkin_download_test_data(
-    ${PROJECT_NAME}_tests_32e.pcap
-    http://download.ros.org/data/velodyne/32e.pcap
-    DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/tests
-    MD5 e41d02aac34f0967c03a5597e1d554a9)
-  catkin_download_test_data(
     ${PROJECT_NAME}_tests_vlp16.pcap
     http://download.ros.org/data/velodyne/vlp16.pcap
     DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/tests
@@ -67,8 +64,6 @@ if (CATKIN_ENABLE_TESTING)
   # unit tests
   add_rostest(tests/pcap_node_hertz.test)
   add_rostest(tests/pcap_nodelet_hertz.test)
-  add_rostest(tests/pcap_32e_node_hertz.test)
-  add_rostest(tests/pcap_32e_nodelet_hertz.test)
   add_rostest(tests/pcap_vlp16_node_hertz.test)
   add_rostest(tests/pcap_vlp16_nodelet_hertz.test)
   

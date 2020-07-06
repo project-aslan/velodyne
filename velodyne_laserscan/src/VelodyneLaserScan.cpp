@@ -1,4 +1,4 @@
-#include "velodyne_laserscan/VelodyneLaserScan.h"
+#include "VelodyneLaserScan.h"
 #include <sensor_msgs/point_cloud2_iterator.h>
 
 namespace velodyne_laserscan {
@@ -58,9 +58,7 @@ void VelodyneLaserScan::recvCallback(const sensor_msgs::PointCloud2ConstPtr& msg
   uint16_t ring;
   if ((cfg_.ring < 0) || (cfg_.ring >= ring_count_)) {
     // Default to ring closest to being level for each known sensor
-    if (ring_count_ > 32) {
-      ring = 57; // HDL-64E
-    } else if (ring_count_ > 16) {
+    if (ring_count_ > 16) {
       ring = 23; // HDL-32E
     } else {
       ring = 8; // VLP-16

@@ -17,7 +17,7 @@
 
 */
 
-#include "velodyne_pointcloud/transform.h"
+#include "transform.h"
 
 #include <pcl_conversions/pcl_conversions.h>
 
@@ -33,7 +33,7 @@ namespace velodyne_pointcloud
 
     // advertise output point cloud (before subscribing to input data)
     output_ =
-      node.advertise<sensor_msgs::PointCloud2>("velodyne_points", 10);
+      node.advertise<sensor_msgs::PointCloud2>("velodyne_points", 100);
 
     srv_ = boost::make_shared <dynamic_reconfigure::Server<velodyne_pointcloud::
       TransformNodeConfig> > (private_nh);
@@ -43,11 +43,11 @@ namespace velodyne_pointcloud
     srv_->setCallback (f);
     
     // subscribe to VelodyneScan packets using transform filter
-    velodyne_scan_.subscribe(node, "velodyne_packets", 10);
+    velodyne_scan_.subscribe(node, "velodyne_packets", 100);
     tf_filter_ =
       new tf::MessageFilter<velodyne_msgs::VelodyneScan>(velodyne_scan_,
                                                          listener_,
-                                                         config_.frame_id, 10);
+                                                         config_.frame_id, 100);
     tf_filter_->registerCallback(boost::bind(&Transform::processScan, this, _1));
   }
   
@@ -73,7 +73,7 @@ namespace velodyne_pointcloud
       return;                                     // avoid much work
 
     // allocate an output point cloud with same time as raw data
-    velodyne_rawdata::VPointCloud::Ptr outMsg(new velodyne_rawdata::VPointCloud());
+    VPointCloud::Ptr outMsg(new VPointCloud());
     outMsg->header.stamp = pcl_conversions::toPCL(scanMsg->header).stamp;
     outMsg->header.frame_id = config_.frame_id;
     outMsg->height = 1;
@@ -82,16 +82,16 @@ namespace velodyne_pointcloud
     for (size_t next = 0; next < scanMsg->packets.size(); ++next)
       {
         // clear input point cloud to handle this packet
-        inPc_.pc->points.clear();
-        inPc_.pc->width = 0;
-        inPc_.pc->height = 1;
+        inPc_.points.clear();
+        inPc_.width = 0;
+        inPc_.height = 1;
         std_msgs::Header header;
         header.stamp = scanMsg->packets[next].stamp;
         header.frame_id = scanMsg->header.frame_id;
-        pcl_conversions::toPCL(header, inPc_.pc->header);
+        pcl_conversions::toPCL(header, inPc_.header);
 
         // unpack the raw data
-        data_->unpack(scanMsg->packets[next], inPc_);
+        data_->unpack(scanMsg->packets[next], inPc_, scanMsg->packets.size());
 
         // clear transform point cloud for this packet
         tfPc_.points.clear();           // is this needed?
@@ -104,13 +104,13 @@ namespace velodyne_pointcloud
         // transform the packet point cloud into the target frame
         try
           {
-            ROS_DEBUG_STREAM("transforming from " << inPc_.pc->header.frame_id
+            ROS_DEBUG_STREAM("transforming from " << inPc_.header.frame_id
                              << " to " << config_.frame_id);
-            pcl_ros::transformPointCloud(config_.frame_id, *(inPc_.pc), tfPc_,
+            pcl_ros::transformPointCloud(config_.frame_id, inPc_, tfPc_,
                                          listener_);
 #if 0       // use the latest transform available, should usually work fine
-            pcl_ros::transformPointCloud(inPc_.pc->header.frame_id,
-                                         ros::Time(0), *(inPc_.pc),
+            pcl_ros::transformPointCloud(inPc_.header.frame_id,
+                                         ros::Time(0), inPc_,
                                          config_.frame_id,
                                          tfPc_, listener_);
 #endif

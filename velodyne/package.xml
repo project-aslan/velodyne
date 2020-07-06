@@ -5,6 +5,8 @@
   <description>
     Basic ROS support for the Velodyne 3D LIDARs.
   </description>
+
+  <maintainer email="adbelrahman.barghout@streetdrone.com">Abdelrahman Barghouth</maintainer>
   <maintainer email="jwhitley@autonomoustuff.com">Josh Whitley</maintainer>
   <author>Jack O'Quin</author>
   <license>BSD</license>
@@ -14,12 +16,13 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <exec_depend>velodyne_driver</exec_depend>
-  <exec_depend>velodyne_laserscan</exec_depend>
-  <exec_depend>velodyne_msgs</exec_depend>
-  <exec_depend>velodyne_pointcloud</exec_depend>
+  <run_depend>velodyne_driver</run_depend>
+  <run_depend>velodyne_laserscan</run_depend>
+  <run_depend>velodyne_msgs</run_depend>
+  <run_depend>velodyne_pointcloud</run_depend>
 
   <export>
     <metapackage/>
   </export>
+
 </package>

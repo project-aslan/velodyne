@@ -5,6 +5,8 @@
   <description>
     ROS message definitions for Velodyne 3D LIDARs.
   </description>
+
+  <maintainer email="adbelrahman.barghout@streetdrone.com">Abdelrahman Barghouth</maintainer>
   <maintainer email="jwhitley@autonomoustuff.com">Josh Whitley</maintainer>
   <author>Jack O'Quin</author>
   <license>BSD</license>
@@ -16,8 +18,9 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>message_generation</build_depend>
+  <build_depend>std_msgs</build_depend>
 
-  <depend>std_msgs</depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>std_msgs</run_depend>
 
-  <exec_depend>message_runtime</exec_depend>
 </package>

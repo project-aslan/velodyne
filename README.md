@@ -1,22 +1,13 @@
-[![Build Status](https://travis-ci.org/ros-drivers/velodyne.svg?branch=master)](https://travis-ci.org/ros-drivers/velodyne)
+### Velodyne LiDAR Drivers
 
-Overview
-========
+This directory contains all the drivers for the Velodyne Lidars, Project Aslan is supporting.
 
-Velodyne<sup>1</sup> is a collection of ROS<sup>2</sup> packages supporting `Velodyne high
-definition 3D LIDARs`<sup>3</sup>.
+#### Supported sensors:
 
-**Warning**:
+- Velodyne VLP-32
+- Velodyne VLP-16
 
-  The master branch normally contains code being tested for the next
-  ROS release.  It will not always work with every previous release.
-  To check out the source for the most recent release, check out the
-  tag `velodyne-<version>` with the highest version number.
 
-The current ``master`` branch works with ROS Indigo and Kinetic.
-CI builds are currently run for Lunar and Melodic but extensive
-testing has not been completed in those environments.
-
-- <sup>1</sup>ROS: http://www.ros.org
-- <sup>2</sup>Velodyne: http://www.ros.org/wiki/velodyne
-- <sup>3</sup>`Velodyne high definition 3D LIDARs`: http://www.velodynelidar.com/lidar/lidar.aspx
+#### Disclaimer:
+This package is modified to fit the requirements of Project Aslan. The main alteration made to the original package is that this version only includes the drivers of the sensors that
+Project Aslan has been tested and validated for. The orginal velodyne ROS Drivers can be found [here](http://wiki.ros.org/velodyne)

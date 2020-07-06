@@ -5,26 +5,6 @@
 
   <!-- use separate namespaces for each device and its nodelet manager -->
 
-  <group ns="hdl32e">
-
-    <!-- start nodelet manager, driver and cloud nodelets -->
-    <include file="$(find velodyne_pointcloud)/launch/32e_points.launch">
-      <arg name="frame_id" value="hdl32e"/>
-      <arg name="pcap" value="$(find velodyne_pointcloud)/tests/32e.pcap"/>
-    </include>
-
-    <!-- verify PointCloud2 publication rate -->
-    <test test-name="multi_nodelet_32e_test" pkg="rostest"
-          type="hztest" name="hztest_multi_nodelet_32e" >
-      <param name="hz" value="10.0" />
-      <param name="hzerror" value="3.0" />
-      <param name="test_duration" value="5.0" />
-      <param name="topic" value="/hdl32e/velodyne_points" />
-      <param name="wait_time" value="2.0" />
-    </test>
-
-  </group>
-
   <group ns="vlp16">
 
     <!-- start nodelet manager, driver and cloud nodelets -->
